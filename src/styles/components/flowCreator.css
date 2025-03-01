@@ -24,7 +24,7 @@
 			resize: none;
 			word-wrap: break-word;
 			cursor: pointer;
-			caret-color: var(--white);
+			caret-color: var(--black);
 			-ms-overflow-style: none; /* IE and Edge */
 			scrollbar-width: none; /* Firefox */
 

@@ -43,11 +43,11 @@
 					resize: none;
 					color: var(--black);
 					word-wrap: break-word;
-					caret-color: var(--white);
-					-ms-overflow-style: none; /* IE and Edge */
-					scrollbar-width: none; /* Firefox */
+					caret-color: var(--black);
 					cursor: pointer;
 					overflow: scroll;
+					-ms-overflow-style: none; /* IE and Edge */
+					scrollbar-width: none; /* Firefox */
 
 					&:focus {
 						border: 1px solid var(--blue400);
@@ -112,7 +112,13 @@
 				resize: none;
 				word-wrap: break-word;
 				cursor: pointer;
-				caret-color: var(--white);
+				caret-color: var(--black);
+				-ms-overflow-style: none; /* IE and Edge */
+				scrollbar-width: none; /* Firefox */
+
+				&::-webkit-scrollbar {
+					display: none;
+				}
 
 				&:focus {
 					border: 1px solid var(--blue400);

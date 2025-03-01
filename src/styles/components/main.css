@@ -45,7 +45,7 @@
 		color: var(--black);
 		resize: none;
 		overflow: scroll;
-		caret-color: var(--white);
+		caret-color: var(--black);
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
 	}
