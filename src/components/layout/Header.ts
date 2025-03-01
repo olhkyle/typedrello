@@ -1,17 +1,15 @@
+import '../../styles/components/header.css';
 import Component from '../../core/Component.ts';
 
 class Header extends Component {
 	render() {
 		return `
-      <header id="layoutHeader" class="header">
+     <header class="header">
         <a href="#" class="logo">
-          <div class="logo-container">
-            Boost.
-          </div>
+          <h1 class="logo-container">
+            <img src="/public/assets/logo.gif"/>
+          </h1>
         </a>
-        <button class="logo-container list-button">
-            Boost.
-        </button>
       </header>
     `;
 	}

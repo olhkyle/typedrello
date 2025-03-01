@@ -43,6 +43,11 @@ const diff = (oldNode: Node | null, newNode: Node | null, parent: Node | null = 
 	if (parent) {
 		// add new Node
 		if (!oldNode && newNode) {
+			if (!(newNode instanceof Node)) {
+				console.warn('newNode is not a valid Node:', newNode);
+				return;
+			}
+
 			parent.appendChild(newNode);
 			return;
 		}

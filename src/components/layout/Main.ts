@@ -1,22 +1,21 @@
+import '../../styles/components/main.css';
 import Component from '../../core/Component.ts';
+import { Flow, FlowCreator } from '..';
 import { AppState } from '../../state/localStorageState.ts';
-// import List from './List.js';
-// import ListCreator from './ListCreator.js';
 
 interface MainProps {
 	lists: AppState['lists'];
 	listCreator: AppState['listCreator'];
 }
 
-class Main extends Component {
+class Main extends Component<MainProps> {
 	render() {
-		const { lists, listCreator } = this.props as MainProps;
+		const { lists, listCreator } = this.props;
 
 		return `
       <main id="layoutMain" class="main">
-        <div>
-        ${lists?.map(({ id }) => `<div>${id}</div>`).join('')}
-        </div>
+        ${new Flow({ lists })?.render()}
+				${new FlowCreator({ listCreator, lists })?.render()}
 			</main>
     `;
 	}

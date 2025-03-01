@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-
 import Component from './Component.js';
 import diff from './diff.js';
 import eventCollection from './eventCollection.js';

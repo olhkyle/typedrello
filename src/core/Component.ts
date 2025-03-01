@@ -1,17 +1,13 @@
 import { eventCollection, renderDOM } from '.';
 import { TEvent } from './eventCollection';
 
-interface ComponentProps {
-	[key: string]: any;
-}
+type State = Record<string, unknown>;
 
-type State = Record<string, any>;
-
-class Component {
-	props?: ComponentProps;
+class Component<Props = {}> {
+	props: Props;
 	state?: State;
 
-	constructor(props: ComponentProps = {}) {
+	constructor(props: Props = {} as Props) {
 		this.props = props;
 		this.#applyEvents();
 	}
@@ -43,8 +39,10 @@ class Component {
 				const { selector, handler } = event;
 
 				event.handler = e => {
-					if (e.target instanceof Element && (e.target?.matches(selector) || e.target?.closest(selector))) {
-						handler(e);
+					if (e.target instanceof Element) {
+						if (e.target?.matches(selector) || e.target?.closest(selector)) {
+							handler(e);
+						}
 					}
 				};
 
@@ -53,7 +51,7 @@ class Component {
 		}
 	}
 
-	render() {
+	render(): string {
 		throw new Error(`Sub Class of Component should implement 'Render' method which returns DOMString`);
 	}
 }
