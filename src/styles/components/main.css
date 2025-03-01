@@ -1,0 +1,150 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 60px 16px;
+	height: 100dvh;
+	background-color: var(--greyOpacity50);
+	color: var(--black);
+	overflow-x: scroll;
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+
+	@media screen and (min-width: 640px) {
+		flex-direction: row;
+	}
+}
+
+.drag {
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: none;
+	height: fit-content;
+	textarea {
+		color: var(--white);
+	}
+}
+
+.drag * {
+	visibility: hidden;
+}
+
+.fragment {
+	position: absolute;
+	width: 280px;
+	left: -1000px;
+	transform: rotate(2deg);
+
+	textarea {
+		padding: 6px 8px;
+		min-height: 36px;
+		max-height: 256px;
+		height: 36px;
+		line-height: 24px;
+		background-color: var(--grey200);
+		border-radius: var(--radius-xs);
+		color: var(--black);
+		resize: none;
+		overflow: scroll;
+	}
+
+	p,
+	button {
+		color: var(--black);
+	}
+}
+
+.fragment.list-item {
+	.list-item-container {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		padding: var(--padding-container-mobile);
+		border: 1px solid var(--grey300);
+		background-color: var(--white);
+		border-radius: var(--radius-s);
+		box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+		.list-item-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.list-item-title {
+				width: 90%;
+				font-weight: var(--fw-bold);
+			}
+
+			.delete-list-btn {
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				width: 18px;
+				height: 18px;
+				color: var(--black);
+				font-size: var(--fz-h7);
+			}
+		}
+
+		.card-creator-container {
+			.card-creator-open-btn {
+				display: inline-flex;
+				align-items: center;
+				padding: 8px 12px;
+				font-size: var(--fz-sm);
+				font-weight: var(--fw-medium);
+				border: 1px solid var(--blue400);
+				border-radius: var(--radius-s);
+				text-align: start;
+
+				.bx-plus {
+					font-size: var(--fz-sm);
+					color: var(--black);
+				}
+
+				&:hover {
+					background-color: var(--blue400);
+				}
+			}
+		}
+	}
+}
+
+.fragment.card {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 12px;
+	width: 246px;
+	border-radius: var(--radius-s);
+	border: 1px solid var(--grey200);
+	background-color: var(--grey100);
+	cursor: pointer;
+
+	.card-title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		clear: both;
+		overflow: hidden;
+
+		.card-content {
+			overflow: hidden;
+			word-wrap: break-word;
+		}
+
+		.delete-card-btn {
+			display: none;
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			justify-content: center;
+			align-items: center;
+			width: 20px;
+			height: 20px;
+			border-radius: var(--radius-s);
+			color: var(--black);
+			background-color: var(--white);
+			font-size: var(--fz-p);
+		}
+	}
+}

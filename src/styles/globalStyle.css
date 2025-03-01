@@ -47,9 +47,10 @@
 	--orange900: #ffb320;
 
 	--blue100: #eff8ff;
-	--blue200: #1c9eff;
-	--blue300: #b1dcfd;
-	--blue400: #7fc7ff;
+	--blue200: #b1dcfd;
+	--blue300: #7fc7ff;
+	--blue400: #1c9eff;
+	--blue500: #1c8eff;
 
 	--green100: #f1fcf8;
 	--green200: #00c82c;
@@ -108,7 +109,7 @@
 	--max-app-width: 480px;
 	--min-app-width: 320px;
 
-	--nav-height: 50px;
+	--nav-height: 60px;
 	--transition-duration: 0.2;
 
 	/* z-index */
@@ -195,6 +196,10 @@ select,
 textarea {
 	background-color: transparent;
 	border: 0;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	resize: none;
+	cursor: pointer;
 
 	&:focus {
 		outline: none;

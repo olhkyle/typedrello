@@ -1,0 +1,31 @@
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	padding: 0 var(--padding-container-mobile);
+	min-height: var(--nav-height);
+	background-color: var(--grey200);
+	z-index: var(--nav-index);
+
+	.logo {
+		.logo-container {
+			padding: calc(var(--padding-container-mobile) * 0.75) calc(var(--padding-container-mobile) * 0.5);
+			width: 80px;
+			background-color: var(--black);
+			border-radius: var(--radius-s);
+
+			img {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+	.logo:hover {
+		transform: scale(0.975);
+	}
+}
