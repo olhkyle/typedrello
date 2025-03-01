@@ -17,7 +17,7 @@
 	left: 50%;
 	padding: 32px;
 	width: calc(100dvw - 2 * var(--padding-container-mobile));
-	/* height: calc(100dvh - 5 * var(--padding-container-mobile)); */
+	min-height: 520px;
 	border: 1px solid var(--grey300);
 	border-radius: var(--radius-s);
 	color: var(--grey900);
@@ -26,7 +26,7 @@
 	z-index: var(--modal-index);
 
 	@media screen and (min-width: 640px) {
-		width: 720px;
+		width: 640px;
 	}
 
 	.modal-close-btn {

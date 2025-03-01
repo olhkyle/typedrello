@@ -5,7 +5,7 @@
 	.list-creator {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
+		gap: 24px;
 		padding: 16px;
 		border: 1px solid var(--grey800);
 		border-radius: var(--radius-s);
@@ -25,6 +25,8 @@
 			word-wrap: break-word;
 			cursor: pointer;
 			caret-color: var(--white);
+			-ms-overflow-style: none; /* IE and Edge */
+			scrollbar-width: none; /* Firefox */
 
 			&:focus {
 				border: 1px solid var(--blue400);
