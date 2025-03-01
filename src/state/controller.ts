@@ -1,34 +1,70 @@
-const findListTitle = ({ lists, listId }) => lists.find(({ id }) => id === listId).title;
+import { AppState } from './localStorageState';
 
-const findCardTitle = ({ lists, listId, cardId }) => {
-	const targetList = lists.find(list => list.id === listId);
-	return targetList?.cards.find(card => card.id === cardId)?.title;
+type TLists = AppState['lists'];
+
+// $element.closest('className') returns Element | null
+const getListId = ($element: HTMLElement): number => {
+	const $listItem = $element.closest('.list-item');
+
+	// 'dataset.prop' is inferred as 'string | undefined' type.
+	// 'dataset' has DOMStringMap type. if DOM element doesn't have dataset, it will return 'undefined'
+	return $listItem instanceof HTMLElement ? +($listItem.dataset.listId || 0) : 0;
 };
 
-const generateNextListId = lists => Math.max(...lists.map(({ id }) => id), 0) + 1;
+const getListIndex = ($element: HTMLElement): number => {
+	const $listItem = $element.closest('.list-item');
+	return $listItem instanceof HTMLElement ? +($listItem.dataset.listIndex || 0) : 0;
+};
 
-const generateNextCardId = cards => Math.max(...cards.map(({ id }) => id), 0) + 1;
+const getCardId = ($element: HTMLElement): number => {
+	const $card = $element.closest('.card');
+	return $card instanceof HTMLElement ? +($card.dataset.cardId || 0) : 0;
+};
 
-const toggleIsCardCreatorOpen = (lists, listId) =>
+const findListTitle = ({ lists, listId }: { lists: TLists; listId: number }) => lists.find(({ id }) => id === listId)?.title ?? '';
+
+const findCardTitle = ({ lists, listId, cardId }: { lists: TLists; listId: number; cardId: number }) => {
+	const targetList = lists.find(list => list.id === listId);
+
+	return targetList?.cards.find(card => card.id === cardId)?.title ?? '';
+};
+
+const generateNextListId = (lists: TLists) => Math.max(...lists.map(({ id }) => id), 0) + 1;
+
+const generateNextCardId = (cards: TLists[number]['cards']) => Math.max(...cards.map(({ id }) => id), 0) + 1;
+
+const toggleIsCardCreatorOpen = (lists: TLists, listId: number) =>
 	lists.map(list => (list.id === listId ? { ...list, isCardCreatorOpen: !list.isCardCreatorOpen } : list));
 
-const removeListByClickedId = (lists, listId) => lists.filter(({ id }) => id !== listId);
+const removeListByClickedId = (lists: TLists, listId: number) => lists.filter(({ id }) => id !== listId);
 
-const moveList = (lists, dropFromIdx, dropToIdx) => {
+const moveList = (lists: TLists, dropFromIdx: number, dropToIdx: number) => {
 	const filteredLists = [...lists].filter((_, idx) => idx !== dropFromIdx);
 	filteredLists.splice(dropToIdx, 0, lists[dropFromIdx]);
 
 	return filteredLists;
 };
 
-const moveCard = ({ lists, cardId, prevDropFromId, currentDropToId, cardIndex }) => {
+const moveCard = ({
+	lists,
+	cardId,
+	prevDropFromId,
+	currentDropToId,
+	cardIndex,
+}: {
+	lists: TLists;
+	cardId: number;
+	prevDropFromId: number;
+	currentDropToId: number;
+	cardIndex: number;
+}) => {
 	const card = lists
 		.map(list => list.cards)
 		.flat()
 		.find(({ id }) => id === +cardId);
 
 	const listsOfRemovedCard = lists.map(list =>
-		list.id === +prevDropFromId ? { ...list, cards: list.cards.filter(({ id }) => id !== card.id) } : list,
+		list.id === +prevDropFromId ? { ...list, cards: list.cards.filter(({ id }) => id !== card?.id) } : list,
 	);
 
 	return listsOfRemovedCard.map(list =>
@@ -37,6 +73,9 @@ const moveCard = ({ lists, cardId, prevDropFromId, currentDropToId, cardIndex })
 };
 
 export {
+	getListId,
+	getListIndex,
+	getCardId,
 	findListTitle,
 	findCardTitle,
 	generateNextListId,

@@ -2,8 +2,9 @@ import { eventCollection, renderDOM } from '.';
 import { TEvent } from './eventCollection';
 
 type State = Record<string, unknown>;
+type TProps = Record<string, unknown>;
 
-class Component<Props = {}> {
+class Component<Props = TProps> {
 	props: Props;
 	state?: State;
 
@@ -39,7 +40,7 @@ class Component<Props = {}> {
 				const { selector, handler } = event;
 
 				event.handler = e => {
-					if (e.target instanceof Element) {
+					if (e.target instanceof HTMLElement) {
 						if (e.target?.matches(selector) || e.target?.closest(selector)) {
 							handler(e);
 						}

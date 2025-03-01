@@ -8,6 +8,9 @@ import {
 	findListTitle,
 	generateNextCardId,
 	generateNextListId,
+	getCardId,
+	getListId,
+	getListIndex,
 	moveCard,
 	moveList,
 	removeListByClickedId,
@@ -24,7 +27,6 @@ class App extends Component {
 
 	constructor() {
 		super();
-		console.log('initialize app');
 
 		this.$dragTarget = null;
 		this.selectedListId = null;
@@ -56,7 +58,9 @@ class App extends Component {
 			{
 				type: 'keydown',
 				selector: 'window',
-				handler: (event: KeyboardEvent) => {
+				handler: (event: Event) => {
+					if (!(event instanceof KeyboardEvent)) return;
+
 					if (event.key !== 'Escape') return;
 
 					if (this.state.modal.isOpen) {
@@ -89,32 +93,12 @@ class App extends Component {
 					if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
 						if (!event.target?.matches('textarea')) return;
 
+						event.target.style.height = 'auto';
 						event.target.style.height = `${event.target.scrollHeight}px`;
 					}
 				},
 			},
 		];
-	}
-
-	// $element.closest('className') returns Element | null
-	getListId($element: HTMLElement): number {
-		const $ListItem = $element.closest('.list-item') as HTMLElement | null;
-
-		// 'dataset.prop' is inferred as 'string | undefined' type.
-		// 'dataset' has DOMStringMap type. if DOM element doesn't have dataset, it will return 'undefined'
-		return +($ListItem?.dataset.listId ?? 0);
-	}
-
-	getListIndex($element: HTMLElement) {
-		const $ListItem = $element.closest('.list-item') as HTMLElement | null;
-
-		return +($ListItem?.dataset.listIndex ?? 0);
-	}
-
-	getCardId($element: HTMLElement) {
-		const $Card = $element.closest('.card') as HTMLElement | null;
-
-		return +($Card?.dataset.cardId ?? 0);
 	}
 
 	/**
@@ -126,14 +110,14 @@ class App extends Component {
 		this.setState({ lists });
 	}
 
-	toggleListCreatorBtns() {
+	toggleListCreatorButtons() {
 		this.setState({ listCreator: { isOpen: !this.state.listCreator.isOpen } });
 	}
 
-	toggleCardCreatorBtns(target: HTMLElement) {
-		const $ListItem = target.closest('.list-item') as HTMLElement | null;
+	toggleCardCreatorButtons(target: HTMLElement) {
+		const $listItem = target.closest('.list-item') as HTMLElement | null;
 
-		const lists = toggleIsCardCreatorOpen(this.state.lists, +($ListItem?.dataset.listId ?? 0));
+		const lists = toggleIsCardCreatorOpen(this.state.lists, +($listItem?.dataset.listId || 0));
 
 		this.setState({ lists });
 	}
@@ -145,17 +129,18 @@ class App extends Component {
 	}
 
 	removeList(target: HTMLElement) {
-		const lists = removeListByClickedId(this.state.lists, this.getListId(target));
+		const lists = removeListByClickedId(this.state.lists, getListId(target));
 
 		this.setState({ lists });
 	}
 
 	addCard({ target, value }: { target: HTMLElement; value: string }) {
 		const cardId = generateNextCardId(this.state.lists.map(({ cards }) => cards).flat());
+
 		const newCard = { id: cardId, title: value, description: '' };
 
 		this.setState({
-			lists: this.state.lists.map(list => (list.id === this.getListId(target) ? { ...list, cards: [...list.cards, newCard] } : list)),
+			lists: this.state.lists.map(list => (list.id === getListId(target) ? { ...list, cards: [...list.cards, newCard] } : list)),
 		});
 	}
 
@@ -173,7 +158,7 @@ class App extends Component {
 	}
 
 	removeCard(target: HTMLElement) {
-		const cardId = this.getCardId(target);
+		const cardId = getCardId(target);
 		const filterCard = (list: AppState['lists'][number]) => list.cards.filter(({ id }) => id !== cardId);
 
 		const lists = this.state.lists.map(list => ({ ...list, cards: filterCard(list) }));
@@ -197,7 +182,7 @@ class App extends Component {
 	}
 
 	closeListCardCreator(event: KeyboardEvent) {
-		this.toggleCardCreatorBtns(event.target as HTMLElement);
+		this.toggleCardCreatorButtons(event.target as HTMLElement);
 	}
 
 	toggleModal() {
@@ -296,27 +281,26 @@ class App extends Component {
 	}
 
 	// event Handlers
-	onDragStart(event: DragEvent) {
-		// if (!this.$dragTarget) {
-		// 	throw new Error('Drag target is not defined'); // 또는 기본 요소 반환
-		// }
+	onDragStart(event: Event) {
+		if (!(event instanceof DragEvent)) return;
+
 		const $element = event.target as HTMLElement | null;
 
 		this.$dragTarget = $element;
-
 		const $dragImage = this.addDragImage();
 
-		if (event.dataTransfer) {
-			event.dataTransfer.setDragImage($dragImage, event.offsetX * 2, event.offsetY * 2);
-			event.dataTransfer.effectAllowed = 'move';
+		if (this.$dragTarget) {
+			if (event.dataTransfer) {
+				event.dataTransfer.setDragImage($dragImage, event.offsetX * 2, event.offsetY * 2);
+				event.dataTransfer.effectAllowed = 'move';
+				console.log('drag start');
+
+				this.dropFromListIdx = getListIndex(this.$dragTarget);
+				this.dropFromListId = getListId(this.$dragTarget);
+
+				this.$dragTarget.classList.add('drag');
+			}
 		}
-
-		console.log('drag start');
-
-		this.dropFromListIdx = this.getListIndex(this.$dragTarget!);
-		this.dropFromListId = this.getListId(this.$dragTarget!);
-
-		this.$dragTarget?.classList.add('drag');
 	}
 
 	onDragEnd() {
@@ -326,7 +310,9 @@ class App extends Component {
 		this.removeDragImage();
 	}
 
-	onDragOver(event: DragEvent) {
+	onDragOver(event: Event) {
+		if (!(event instanceof DragEvent)) return;
+
 		const $dropTarget = event.target as HTMLElement;
 		const $dropList = $dropTarget?.closest('.list-item') as HTMLElement | null;
 
@@ -339,16 +325,16 @@ class App extends Component {
 			if (this.$dragTarget === $dropList) return;
 
 			// eslint-disable-next-line max-len
-			const [prevDropFromIdx, currentDropToIdx] = [this.getListIndex(this.$dragTarget), this.getListIndex($dropList)];
+			const [prevDropFromIdx, currentDropToIdx] = [getListIndex(this.$dragTarget), getListIndex($dropList)];
 
-			this.$dragTarget?.parentNode?.insertBefore(
+			this.$dragTarget.parentNode?.insertBefore(
 				this.$dragTarget,
 				prevDropFromIdx > currentDropToIdx ? $dropList : $dropList.nextElementSibling,
 			);
 
 			[...document.querySelectorAll('.list-item')].forEach(($listItem, idx) => {
 				if ($listItem instanceof HTMLElement) {
-					$listItem.dataset.listIndex = idx + '';
+					$listItem.dataset.listIndex = `${idx}`;
 				}
 			});
 
@@ -382,14 +368,12 @@ class App extends Component {
 	}
 
 	onDrop() {
-		const $element = this.$dragTarget as HTMLElement | null;
-
-		if ($element?.matches('.list-item')) {
-			const [prevDropFromIdx, currentDropToIdx] = [this.dropFromListIdx, this.getListIndex($element)];
+		if (this.$dragTarget?.matches('.list-item')) {
+			const [prevDropFromIdx, currentDropToIdx] = [this.dropFromListIdx, getListIndex(this.$dragTarget)];
 
 			if (prevDropFromIdx === currentDropToIdx) return;
 
-			const lists = moveList(this.state.lists, prevDropFromIdx, currentDropToIdx);
+			const lists = moveList(this.state.lists, prevDropFromIdx!, currentDropToIdx);
 
 			setTimeout(() => {
 				this.setState({ lists });
@@ -401,19 +385,16 @@ class App extends Component {
 		}
 
 		if (this.$dragTarget?.matches('.card')) {
-			const [cardId, prevDropFromId, currentDropToId] = [
-				this.getCardId(this.$dragTarget),
-				this.dropFromListId,
-				this.getListId(this.$dragTarget),
-			];
+			const [cardId, prevDropFromId, currentDropToId] = [getCardId(this.$dragTarget), this.dropFromListId, getListId(this.$dragTarget)];
 
-			if ($element?.parentNode instanceof HTMLElement) {
-				const cardIndex = [...$element.parentNode.querySelectorAll('.card')].findIndex($card => {
+			if (this.$dragTarget?.parentNode instanceof HTMLElement) {
+				const cardIndex = [...this.$dragTarget.parentNode.querySelectorAll('.card')].findIndex($card => {
 					if ($card instanceof HTMLElement) {
-						cardId === +($card.dataset.cardId ?? 0);
+						cardId === +$card.dataset.cardId!;
 					}
 				});
-				const lists = moveCard({ lists: this.state.lists, cardId, prevDropFromId, currentDropToId, cardIndex });
+
+				const lists = moveCard({ lists: this.state.lists, cardId, prevDropFromId: prevDropFromId!, currentDropToId, cardIndex });
 
 				// because of triggering dragend after drop, make setState call after push dragend event handler
 				setTimeout(() => {
@@ -425,20 +406,21 @@ class App extends Component {
 		}
 	}
 
-	onClick(event: MouseEvent) {
-		// if (!(event.target instanceof HTMLElement)) return;
+	onClick(event: Event) {
+		if (!(event instanceof MouseEvent)) return;
+
 		const $element = event.target as HTMLElement;
 
 		if ($element.nodeName === 'A') event.preventDefault();
 
 		// 1. click list-creator-open-btn & list-creator-close-btn
 		if ($element.matches('.list-creator-open-btn') || $element.matches('.list-creator-close-btn')) {
-			this.toggleListCreatorBtns();
+			this.toggleListCreatorButtons();
 		}
 
 		// 2. click card-creator-open-btn & card-creator-close-btn
 		if ($element.matches('.card-creator-open-btn') || $element.matches('.card-creator-close-btn')) {
-			this.toggleCardCreatorBtns($element);
+			this.toggleCardCreatorButtons($element);
 		}
 
 		// 3. click add-list-btn
@@ -522,18 +504,20 @@ class App extends Component {
 		}
 	}
 
-	onKeyDown(event: KeyboardEvent) {
+	onKeyDown(event: Event) {
+		if (!(event instanceof KeyboardEvent)) return;
+
 		if (event.isComposing) return;
 		if (event.key !== 'Enter' && event.key !== 'Escape') return;
-
-		const $element = event.target as HTMLInputElement | HTMLTextAreaElement;
 
 		if (event.key === 'Escape') {
 			// window 'keydown' bind Event Handler -> event propagation works
 			event.stopPropagation();
 
+			const $element = event.target as HTMLInputElement | HTMLTextAreaElement;
+
 			if ($element.matches('.new-list-title')) {
-				this.toggleListCreatorBtns();
+				this.toggleListCreatorButtons();
 				return;
 			}
 
@@ -543,7 +527,7 @@ class App extends Component {
 			}
 
 			if ($element.matches('.list-item-title')) {
-				const listId = this.getListId($element);
+				const listId = getListId($element);
 
 				this.updateListTitle({ listId, value: $element.value });
 			}
@@ -551,8 +535,8 @@ class App extends Component {
 			if ($element.matches('.modal-card-title-textarea')) {
 				const currentCardTitle = findCardTitle({
 					lists: this.state.lists,
-					listId: this.selectedListId,
-					cardId: this.selectedCardId,
+					listId: this.selectedListId!,
+					cardId: this.selectedCardId!,
 				});
 
 				const { value } = $element;
@@ -571,11 +555,11 @@ class App extends Component {
 		}
 
 		if (event.key === 'Enter') {
+			const $element = event.target as HTMLInputElement | HTMLTextAreaElement;
 			const value = $element.value.trim();
 
 			if ($element.matches('.list-item-title')) {
-				const listId = this.getListId($element);
-
+				const listId = getListId($element);
 				const currentValue = findListTitle({ lists: this.state.lists, listId });
 
 				if (value === '') {
@@ -609,8 +593,8 @@ class App extends Component {
 
 				const currentCardTitle = findCardTitle({
 					lists: this.state.lists,
-					listId: this.selectedListId,
-					cardId: this.selectedCardId,
+					listId: this.selectedListId!,
+					cardId: this.selectedCardId!,
 				});
 
 				if (value === '' || value === currentCardTitle) {
@@ -625,12 +609,13 @@ class App extends Component {
 		}
 	}
 
-	onSubmit(event: SubmitEvent) {
+	onSubmit(event: Event) {
+		if (!(event instanceof SubmitEvent)) return;
+
 		event.preventDefault();
 
 		const $element = event.target as HTMLFormElement;
-
-		const $textArea = $element?.querySelector('textarea');
+		const $textArea = $element.querySelector('textarea');
 		const value = $textArea?.value.trim() ?? '';
 
 		if ($element?.matches('.card-creator')) {

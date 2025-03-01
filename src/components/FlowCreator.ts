@@ -24,8 +24,8 @@ class FlowCreator extends Component<FlowCreatorProps> {
 								<button class="add-list-btn">Add List</button>
 								<button type="button" class="bx bx-x bx-md list-creator-close-btn" ></button>
 							</div>
-            </form>` : 
-            `<button class="list-creator-open-btn">+ Add ${lists.length ? 'another' : 'new'} list</button>`}
+            </form>` 
+						: `<button class="list-creator-open-btn">+ Add ${lists.length ? 'another' : 'new'} list</button>`}
       </div>
     `;
 	}

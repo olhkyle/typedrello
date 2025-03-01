@@ -10,7 +10,7 @@ let component: Component | null = null; // component instance
  * - All Event Handlers are delegate registered on root container($root)
  * - But, if the 'selector' property's value is 'window', Event Handler would be applied on window
  */
-const bindEventHandler = ($root: HTMLElement) => {
+const bindEventHandlers = ($root: HTMLElement) => {
 	for (const { type, selector, handler } of eventCollection) {
 		(selector === 'window' ? window : $root).addEventListener(type, handler);
 	}
@@ -42,16 +42,19 @@ const renderDOM = (Component?: new (props: { $root: HTMLElement }) => Component,
 			}
 
 			cloned.innerHTML = DOMString;
+			return cloned;
 		}
 
-		return cloned;
+		return null;
 	};
 
-	// reconciliation
-	diff($root, createNewTree()!);
+	if ($root) {
+		// reconciliation
+		diff($root, createNewTree()!);
 
-	// bind Events
-	bindEventHandler($root!);
+		// bind Events
+		bindEventHandlers($root);
+	}
 };
 
 export default renderDOM;

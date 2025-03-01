@@ -16,7 +16,7 @@ class Flow extends Component<FlowProps> {
       <div class="list-container">
         ${lists?.map((list, idx) => `
 					<div class="list-item" data-list-index="${idx}" data-list-id="${list.id}" draggable="true">
-						${new FlowItem({ list })?.render()}
+						${new FlowItem({ list }).render()}
 					</div>`).join('')}
       </div>
     `;
