@@ -84,8 +84,6 @@ class App extends Component {
 				selector: null,
 				handler: this.onKeyDown.bind(this),
 			},
-
-			{ type: 'submit', selector: null, handler: this.onSubmit.bind(this) },
 			{
 				type: 'input',
 				selector: null,
@@ -98,6 +96,7 @@ class App extends Component {
 					}
 				},
 			},
+			{ type: 'submit', selector: null, handler: this.onSubmit.bind(this) },
 		];
 	}
 
