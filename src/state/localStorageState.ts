@@ -43,18 +43,28 @@ const initialState = {
 };
 
 const loadState = () => {
-	if (window !== undefined) {
-		return JSON.parse(localStorage.getItem(KEY) ?? '') || initialState;
+	if (typeof window === 'undefined') {
+		return initialState;
 	}
 
-	return {};
-};
+	try {
+		const storedState = localStorage.getItem(KEY);
 
-const saveState = (newState: unknown) => {
-	if (window !== undefined) {
-		localStorage.setItem(KEY, JSON.stringify(newState));
+		return storedState ? JSON.parse(storedState) : initialState;
+	} catch (error) {
+		console.error('Failed to parse localStorage state:', error);
+		return initialState;
 	}
 };
 
+const saveState = (newState: AppState) => {
+	if (typeof window !== 'undefined') {
+		try {
+			localStorage.setItem(KEY, JSON.stringify(newState));
+		} catch (error) {
+			console.error('Failed to save state to localStorage:', error);
+		}
+	}
+};
 export type { AppState };
 export { initialState, loadState, saveState };
