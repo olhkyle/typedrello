@@ -7,7 +7,7 @@ class Header extends Component {
      <header class="header">
         <a href="#" class="logo">
           <h1 class="logo-container">
-            <img src="/assets/logo.gif"/>
+            <img src="/assets/TYPEDRELLO.svg"/>
           </h1>
         </a>
       </header>
