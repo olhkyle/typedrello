@@ -42,9 +42,19 @@ const initialState = {
 	},
 };
 
-const loadState = () => JSON.parse(localStorage.getItem(KEY) ?? '') || initialState;
+const loadState = () => {
+	if (window !== undefined) {
+		return JSON.parse(localStorage.getItem(KEY) ?? '') || initialState;
+	}
 
-const saveState = (newState: unknown) => localStorage.setItem(KEY, JSON.stringify(newState));
+	return {};
+};
+
+const saveState = (newState: unknown) => {
+	if (window !== undefined) {
+		localStorage.setItem(KEY, JSON.stringify(newState));
+	}
+};
 
 export type { AppState };
 export { initialState, loadState, saveState };
