@@ -24,7 +24,7 @@
 			resize: none;
 			word-wrap: break-word;
 			cursor: pointer;
-			caret-color: var(--black);
+			caret-color: var(--white);
 			-ms-overflow-style: none; /* IE and Edge */
 			scrollbar-width: none; /* Firefox */
 
@@ -53,6 +53,10 @@
 		}
 	}
 
+	.list-creator.hidden {
+		display: none;
+	}
+
 	.list-creator-open-btn {
 		padding: 16px 32px;
 		width: 100%;
@@ -67,5 +71,9 @@
 		&:hover {
 			opacity: 0.8;
 		}
+	}
+
+	.list-creator-open-btn.hidden {
+		display: none;
 	}
 }

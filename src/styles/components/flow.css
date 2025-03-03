@@ -35,13 +35,12 @@
 					max-height: 256px;
 					height: 36px;
 					line-height: 24px;
-					color: var(--black);
 					background-color: var(--grey200);
 					border: 1px solid var(--grey300);
 					font-weight: var(--fw-bold);
 					border-radius: var(--radius-xs);
-					resize: none;
 					color: var(--black);
+					resize: none;
 					word-wrap: break-word;
 					caret-color: var(--black);
 					cursor: pointer;
@@ -129,6 +128,7 @@
 		.card-control {
 			display: flex;
 			align-items: center;
+			gap: 8px;
 
 			.add-card-btn {
 				padding: 8px 12px;
@@ -137,7 +137,7 @@
 				color: var(--white);
 				background-color: var(--blue400);
 				border: 1px solid var(--blue300);
-				border-radius: 10px;
+				border-radius: var(--radius-s);
 				transition: background 0.15s ease-in-out;
 
 				&:hover {
@@ -146,8 +146,18 @@
 			}
 
 			.card-creator-close-btn {
-				font-size: var(--fz-sm);
-				color: var(--grey100);
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				padding: calc(var(--padding-container-mobile) * 0.5);
+				font-size: var(--fz-h6);
+				color: var(--grey700);
+				border-radius: var(--radius-s);
+				transition: background 0.15s ease-in-out;
+
+				&:hover {
+					background-color: var(--grey200);
+				}
 			}
 		}
 	}
