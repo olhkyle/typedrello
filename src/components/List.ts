@@ -1,13 +1,13 @@
-import '../styles/components/flow.css';
+import '../styles/components/list.css';
 import Component from '../core/Component.js';
 import { AppState } from '../state/localStorageState.ts';
-import FlowItem from './FlowItem.ts';
+import ListItem from './ListItem.ts';
 
-interface FlowProps {
+interface ListProps {
 	lists: AppState['lists'];
 }
 
-class Flow extends Component<FlowProps> {
+class List extends Component<ListProps> {
 	render() {
 		const { lists } = this.props;
 
@@ -16,11 +16,11 @@ class Flow extends Component<FlowProps> {
       <div class="list-container">
         ${lists?.map((list, idx) => `
 					<div class="list-item" data-list-index="${idx}" data-list-id="${list.id}" draggable="true">
-						${new FlowItem({ list }).render()}
+						${new ListItem({ list }).render()}
 					</div>`).join('')}
       </div>
     `;
 	}
 }
 
-export default Flow;
+export default List;

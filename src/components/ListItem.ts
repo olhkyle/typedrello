@@ -1,12 +1,12 @@
 import Component from '../core/Component.ts';
-import { CardList } from '.';
+import { CardList } from './index.ts';
 import { AppState } from '../state/localStorageState.ts';
 
-interface FlowItemProps {
+interface ListItemProps {
 	list: AppState['lists'][number];
 }
 
-class FlowItem extends Component<FlowItemProps> {
+class ListItem extends Component<ListItemProps> {
 	render() {
 		const {
 			list: { title, cards, isCardCreatorOpen },
@@ -37,4 +37,4 @@ class FlowItem extends Component<FlowItemProps> {
 	}
 }
 
-export default FlowItem;
+export default ListItem;

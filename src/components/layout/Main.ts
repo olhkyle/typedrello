@@ -1,6 +1,6 @@
 import '../../styles/components/main.css';
 import Component from '../../core/Component.ts';
-import { Flow, FlowCreator } from '..';
+import { List, ListCreator } from '..';
 import { AppState } from '../../state/localStorageState.ts';
 
 interface MainProps {
@@ -14,8 +14,8 @@ class Main extends Component<MainProps> {
 
 		return `
       <main id="layoutMain">
-        ${new Flow({ lists })?.render()}
-				${new FlowCreator({ listCreator, lists })?.render()}
+        ${new List({ lists })?.render()}
+				${new ListCreator({ listCreator, lists })?.render()}
 			</main>
     `;
 	}

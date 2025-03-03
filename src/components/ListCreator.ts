@@ -1,13 +1,13 @@
-import '../styles/components/flowCreator.css';
+import '../styles/components/listCreator.css';
 import Component from '../core/Component.ts';
 import { AppState } from '../state/localStorageState.ts';
 
-interface FlowCreatorProps {
+interface ListCreatorProps {
 	lists: AppState['lists'];
 	listCreator: AppState['listCreator'];
 }
 
-class FlowCreator extends Component<FlowCreatorProps> {
+class ListCreator extends Component<ListCreatorProps> {
 	render() {
 		const {
 			lists,
@@ -31,4 +31,4 @@ class FlowCreator extends Component<FlowCreatorProps> {
 	}
 }
 
-export default FlowCreator;
+export default ListCreator;
