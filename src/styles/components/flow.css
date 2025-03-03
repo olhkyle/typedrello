@@ -36,12 +36,13 @@
 				.list-item-title {
 					padding: 6px 8px;
 					width: 100%;
-					min-height: 36px;
 					max-height: 256px;
+					min-height: 36px;
 					height: 36px;
 					line-height: 24px;
 					background-color: var(--grey200);
 					border: 1px solid var(--grey300);
+					font-size: var(--fz-p);
 					font-weight: var(--fw-bold);
 					border-radius: var(--radius-xs);
 					color: var(--black);
