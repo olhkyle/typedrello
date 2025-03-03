@@ -26,7 +26,7 @@ class FlowItem extends Component<FlowItemProps> {
 								<textarea class="new-card-title" placeholder="Enter a title for this card!" autofocus></textarea>
 								<div class="card-control">
 									<button class="add-card-btn">Add Card</button>
-									<button type="button" class="bx bx-x bx-md card-creator-close-btn"></button>
+									<button type="button" class="card-creator-close-btn bx bx-x"/>
 								</div>
 							</form>` : 
 							`<button class="card-creator-open-btn">Add a Card</button>`
