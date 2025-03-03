@@ -225,9 +225,9 @@ textarea {
 }
 
 ::-moz-selection {
-	background: var(--blue100);
+	background: var(--blue200);
 }
 
 ::selection {
-	background: var(--blue100);
+	background: var(--blue200);
 }
