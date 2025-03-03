@@ -58,10 +58,7 @@ const moveCard = ({
 	currentDropToId: number;
 	cardIndex: number;
 }) => {
-	const card = lists
-		.map(list => list.cards)
-		.flat()
-		.find(({ id }) => id === +cardId);
+	const card = lists.flatMap(list => list.cards).find(({ id }) => id === +cardId);
 
 	const listsOfRemovedCard = lists.map(list =>
 		list.id === +prevDropFromId ? { ...list, cards: list.cards.filter(({ id }) => id !== card?.id) } : list,
