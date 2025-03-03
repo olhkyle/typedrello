@@ -13,7 +13,7 @@ class Main extends Component<MainProps> {
 		const { lists, listCreator } = this.props;
 
 		return `
-      <main id="layoutMain" class="main">
+      <main id="layoutMain">
         ${new Flow({ lists })?.render()}
 				${new FlowCreator({ listCreator, lists })?.render()}
 			</main>

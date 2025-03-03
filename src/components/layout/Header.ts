@@ -4,7 +4,7 @@ import Component from '../../core/Component.ts';
 class Header extends Component {
 	render() {
 		return `
-     <header class="header">
+     <header id="layoutHeader" class="header">
         <a href="#" class="logo">
           <h1 class="logo-container">
             <img src="/assets/TYPEDRELLO.svg"/>
