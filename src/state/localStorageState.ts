@@ -26,7 +26,7 @@ const initialState = {
 			cards: [
 				{ id: 4, title: 'HTML', description: '' },
 				{ id: 5, title: 'CSS', description: '' },
-				{ id: 6, title: 'JavaScript', description: '' },
+				{ id: 6, title: 'JavaScript', description: 'Must Todo' },
 			],
 			isCardCreatorOpen: false,
 		},
