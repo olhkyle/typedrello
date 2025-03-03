@@ -36,6 +36,7 @@
 		.list-control {
 			display: flex;
 			align-items: center;
+			gap: 8px;
 
 			.add-list-btn {
 				padding: 8px 12px;
@@ -44,11 +45,26 @@
 				border-radius: var(--radius-s);
 				color: var(--white);
 				background-color: var(--blue400);
+				transition: background 0.15s ease-in-out;
+
+				&:hover {
+					background-color: var(--blue300);
+				}
 			}
 
-			.bx-x {
-				font-size: var(--fz-sm);
+			.list-creator-close-btn {
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				padding: calc(var(--padding-container-mobile) * 0.5);
+				font-size: var(--fz-h6);
 				color: var(--grey200);
+				border-radius: var(--radius-s);
+				transition: background 0.15s ease-in-out;
+
+				&:hover {
+					background-color: var(--grey800);
+				}
 			}
 		}
 	}
