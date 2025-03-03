@@ -1,7 +1,7 @@
 import './styles/components/app.css';
 import type { TEvent } from './core/eventCollection';
 import { Component } from './core';
-import { AppState, initialState, loadState, saveState } from './state/localStorageState';
+import { AppState, loadState, saveState } from './state/localStorageState';
 import { Header, Main, Modal } from './components';
 import {
 	findCardTitle,
@@ -23,7 +23,7 @@ class App extends Component {
 	selectedCardId: number | null;
 	dropFromListIdx: number | null;
 	dropFromListId: number | null;
-	state: typeof initialState;
+	state: AppState;
 
 	constructor() {
 		super();
@@ -35,12 +35,12 @@ class App extends Component {
 		this.dropFromListId = null;
 
 		this.state = loadState();
-		console.log('[Load State]', this.state);
+		console.log('[--- Load State ---]', this.state);
 	}
 
 	render() {
 		return `
-      <div id="container" class="container">
+      <div id="container">
         ${new Header().render()}
 				${new Main(this.state).render()}
       </div>
@@ -114,11 +114,13 @@ class App extends Component {
 	}
 
 	toggleCardCreatorButtons(target: HTMLElement) {
-		const $listItem = target.closest('.list-item') as HTMLElement | null;
+		const $listItem = target.closest('.list-item');
 
-		const lists = toggleIsCardCreatorOpen(this.state.lists, +($listItem?.dataset.listId || 0));
+		if ($listItem instanceof HTMLElement) {
+			const lists = toggleIsCardCreatorOpen(this.state.lists, +($listItem?.dataset.listId || 0));
 
-		this.setState({ lists });
+			this.setState({ lists });
+		}
 	}
 
 	addNewList(value: string) {
@@ -181,7 +183,11 @@ class App extends Component {
 	}
 
 	closeListCardCreator(event: KeyboardEvent) {
-		this.toggleCardCreatorButtons(event.target as HTMLElement);
+		const $element = event.target;
+
+		if ($element instanceof HTMLElement) {
+			this.toggleCardCreatorButtons($element);
+		}
 	}
 
 	toggleModal() {
@@ -201,8 +207,6 @@ class App extends Component {
 		this.setState({
 			modal: { ...this.state.modal, isOpen: false },
 		});
-
-		document.body.style.removeProperty('overflow');
 	}
 
 	toggleModalDescription(isCardDescCreatorOpen: boolean) {
@@ -253,7 +257,7 @@ class App extends Component {
 			throw new Error('Drag target is not defined'); // 또는 기본 요소 반환
 		}
 
-		const $fragmentChild = this.$dragTarget?.cloneNode(true);
+		const $fragmentChild = this.$dragTarget.cloneNode(true);
 
 		if ($fragmentChild instanceof HTMLElement) {
 			$fragmentChild.classList.add('fragment');
@@ -313,7 +317,7 @@ class App extends Component {
 		if (!(event instanceof DragEvent)) return;
 
 		const $dropTarget = event.target as HTMLElement;
-		const $dropList = $dropTarget?.closest('.list-item') as HTMLElement | null;
+		const $dropList = $dropTarget.closest('.list-item') as HTMLElement | null;
 
 		// Default option to allow $element to drop
 		event.preventDefault();
@@ -374,10 +378,7 @@ class App extends Component {
 
 			const lists = moveList(this.state.lists, prevDropFromIdx!, currentDropToIdx);
 
-			setTimeout(() => {
-				this.setState({ lists });
-			}, 10);
-
+			this.setState({ lists });
 			console.log('drop');
 
 			return;
@@ -385,21 +386,20 @@ class App extends Component {
 
 		if (this.$dragTarget?.matches('.card')) {
 			const [cardId, prevDropFromId, currentDropToId] = [getCardId(this.$dragTarget), this.dropFromListId, getListId(this.$dragTarget)];
-
+			console.log(cardId);
+			console.log(prevDropFromId);
+			console.log(currentDropToId);
 			if (this.$dragTarget?.parentNode instanceof HTMLElement) {
+				// find CardElement which is same with $dragTarget's id
 				const cardIndex = [...this.$dragTarget.parentNode.querySelectorAll('.card')].findIndex($card => {
 					if ($card instanceof HTMLElement) {
-						cardId === +$card.dataset.cardId!;
+						return cardId === +$card.dataset.cardId!;
 					}
 				});
 
-				const lists = moveCard({ lists: this.state.lists, cardId, prevDropFromId: prevDropFromId!, currentDropToId, cardIndex });
-
-				// because of triggering dragend after drop, make setState call after push dragend event handler
-				setTimeout(() => {
-					this.setState({ lists });
-				}, 10);
-
+				this.setState({
+					lists: moveCard({ lists: this.state.lists, cardId, prevDropFromId: prevDropFromId!, currentDropToId, cardIndex }),
+				});
 				console.log('drop');
 			}
 		}
@@ -452,7 +452,7 @@ class App extends Component {
 				return;
 			}
 
-			const $listItem = $element.closest('.list-item') as HTMLElement;
+			const $listItem = $element.closest('.list-item');
 			const $card = $element.closest('.card');
 
 			if ($listItem instanceof HTMLElement && $card instanceof HTMLElement) {
@@ -461,7 +461,6 @@ class App extends Component {
 			}
 
 			this.toggleModal();
-			document.body.style.overflow = 'hidden';
 		}
 
 		// 7. close Modal
@@ -488,8 +487,8 @@ class App extends Component {
 
 		// 10. save Description
 		if ($element.matches('.save-btn')) {
-			if ($element.closest('.modal-card-content')) {
-				const { value: description } = $element.closest('.modal-card-content')!.querySelector('textarea') as HTMLTextAreaElement;
+			if ($element.closest('.modal-card-content') instanceof HTMLElement) {
+				const { value: description } = $element.closest('.modal-card-content')?.querySelector('textarea') as HTMLTextAreaElement;
 
 				this.saveModalDescription(description);
 			}
@@ -615,7 +614,7 @@ class App extends Component {
 
 		const $element = event.target as HTMLFormElement;
 		const $textArea = $element.querySelector('textarea');
-		const value = $textArea?.value.trim() ?? '';
+		const value = $textArea?.value.trim() || '';
 
 		if ($element?.matches('.card-creator')) {
 			if (value === '') return;
