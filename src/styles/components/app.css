@@ -1,4 +1,4 @@
-.container {
+#container {
 	background-color: var(--greyOpacity50);
 	overflow: hidden;
 }

@@ -1,4 +1,4 @@
-.header {
+#layoutHeader {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -7,7 +7,8 @@
 	align-items: center;
 	padding: 0 var(--padding-container-mobile);
 	min-height: var(--nav-height);
-	background-color: var(--grey200);
+	background-color: var(--grey100);
+	border-bottom: 1px solid var(--grey200);
 	z-index: var(--nav-index);
 
 	.logo {
