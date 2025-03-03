@@ -15,7 +15,10 @@
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	padding: 32px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px;
 	width: calc(100dvw - 2 * var(--padding-container-mobile));
 	min-height: 520px;
 	border: 1px solid var(--grey300);
@@ -26,27 +29,8 @@
 	z-index: var(--modal-index);
 
 	@media screen and (min-width: 640px) {
+		padding: 32px;
 		width: 640px;
-	}
-
-	.modal-close-btn {
-		position: absolute;
-		top: 16px;
-		right: 16px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 32px;
-		height: 32px;
-		font-size: 24px;
-		border: 1px solid var(--grey100);
-		border-radius: var(--radius-s);
-		color: var(--grey900);
-		transition: background 0.15s ease-in-out;
-
-		&:hover {
-			background-color: var(--grey100);
-		}
 	}
 
 	i {
@@ -56,11 +40,10 @@
 
 	textarea {
 		margin: 0;
-		margin-left: -6px;
-		padding: 4px 8px;
+		padding: 6px 12px;
 		width: 100%;
 		min-height: 36px;
-		height: 32px;
+		height: 36px;
 		border: 1px solid transparent;
 		border-radius: var(--radius-s);
 		color: var(--grey900);
@@ -73,66 +56,102 @@
 
 	.modal-header {
 		display: flex;
+		flex-direction: column;
 		gap: 16px;
-		margin-top: 32px;
 		width: 100%;
 
-		.bx-window-alt {
-			margin-top: 8px;
-		}
-
-		.modal-card-title {
+		.modal-header-top {
 			display: flex;
-			flex-direction: column;
-			gap: 16px;
-			width: 100%;
+			justify-content: center;
+			align-items: center;
 
-			.modal-card-title-textarea {
-				font-size: var(--fz-h6);
-				font-weight: var(--fw-medium);
+			.modal-label {
+				font-size: var(--fz-h5);
+				font-weight: var(--fw-semibold);
 			}
 
-			.modal-card-list-item-title {
-				width: 100%;
-				word-break: break-all;
+			.modal-close-btn {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-left: auto;
+				width: 32px;
+				height: 32px;
+				font-size: 24px;
+				border: 1px solid var(--grey100);
+				border-radius: var(--radius-s);
+				color: var(--grey900);
+				transition: background 0.15s ease-in-out;
 
-				span {
-					font-weight: var(--fw-medium);
-					text-decoration: underline;
-					color: var(--blue400);
+				&:hover {
+					background-color: var(--grey100);
 				}
+			}
+		}
+
+		.modal-header-bottom {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+
+			.modal-card-title {
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				width: 100%;
+
+				.modal-card-title-textarea {
+					font-size: var(--fz-h7);
+					font-weight: var(--fw-medium);
+					transition: background 0.15s ease-in-out;
+
+					&:focus {
+						background-color: var(--grey50);
+					}
+				}
+			}
+		}
+
+		.modal-card-list-item-title {
+			padding-left: 32px;
+			width: 100%;
+			word-break: break-all;
+
+			span {
+				padding: calc(var(--padding-container-mobile) * 0.25);
+				color: var(--white);
+				background-color: var(--blue400);
+				font-size: var(--fz-p);
+				font-weight: var(--fw-medium);
+				border-radius: var(--radius-s);
 			}
 		}
 	}
 
 	.divider {
-		margin: 32px 0;
+		margin: 8px auto;
 		width: 100%;
 		height: 1px;
-		background-color: var(--grey200);
+		background-color: var(--grey100);
 	}
 
 	.modal-body {
 		display: flex;
+		flex-direction: column;
 		gap: 16px;
-		margin-top: 32px;
 		width: 100%;
 
-		.bx-water {
-			margin-top: 8px;
-		}
-
-		.modal-card-content {
+		.modal-card-content-header {
 			display: flex;
-			flex-direction: column;
-			gap: 16px;
-			width: 100%;
+			justify-content: space-between;
+			gap: 8px;
+			min-height: 35px;
 
-			.modal-card-content-header {
+			.content-title-group {
 				display: flex;
 				justify-content: space-between;
+				align-items: center;
 				gap: 8px;
-				min-height: 35px;
 
 				.content-title-wrapper {
 					display: inline-flex;
@@ -151,7 +170,6 @@
 
 					.caution {
 						display: none;
-						margin-top: 4px;
 						color: var(--red200);
 						font-size: var(--fz-xs);
 
@@ -161,61 +179,65 @@
 						}
 					}
 				}
+			}
+			.description-control {
+				display: flex;
+				align-items: center;
+				gap: 8px;
 
-				.description-control {
-					display: flex;
-					align-items: center;
-					gap: 10px;
+				.save-btn {
+					padding: 4px 8px;
+					min-height: 27px;
+					font-weight: var(--fw-semibold);
+					color: var(--white);
+					background-color: var(--blue400);
+					border-radius: var(--radius-s);
+					transition: background 0.15s ease-in-out;
 
-					.save-btn {
-						padding: 4px 8px;
-						border-radius: var(--radius-s);
-						color: var(--white);
-						background-color: var(--blue400);
-
-						&:hover {
-							background-color: var(--blue400);
-						}
-
-						@media screen and (min-width: 520px) {
-							padding: 8px 16px;
-						}
+					&:hover {
+						background-color: var(--blue300);
 					}
 
-					.description-close-btn {
-						display: inline-flex;
-						justify-content: center;
-						align-items: center;
-						width: 27px;
-						height: 27px;
-						font-size: var(--fz-h5);
-						color: var(--white);
-						border-radius: var(--radius-s);
-						background-color: var(--red200);
+					@media screen and (min-width: 640px) {
+						padding: 8px 16px;
+					}
+				}
 
-						&:hover {
-							background-color: var(--red100);
-						}
+				.description-close-btn {
+					display: inline-flex;
+					justify-content: center;
+					align-items: center;
+					width: 27px;
+					height: 27px;
+					font-size: var(--fz-h5);
+					color: var(--white);
+					border-radius: var(--radius-s);
+					background-color: var(--red200);
+					transition: opacity 0.15s ease-in-out;
 
-						@media screen and (min-width: 520px) {
-							width: 35px;
-							height: 35px;
-						}
+					&:hover {
+						opacity: 0.9;
+					}
+
+					@media screen and (min-width: 640px) {
+						width: 32px;
+						height: 32px;
 					}
 				}
 			}
+		}
 
-			.modal-card-content-textarea {
-				padding: 6px 8px;
-				min-height: 120px;
-				/* max-height: 300px; */
-				font-size: var(--fz-sm);
+		.modal-card-content-textarea {
+			padding: 6px 8px;
+			min-height: 240px;
+			font-size: var(--fz-sm);
 
-				@media screen and (min-width: 640px) {
-					min-height: 120px;
-					/* max-height: 600px; */
-					font-size: var(--fz-p);
-				}
+			&:focus {
+				background-color: var(--grey50);
+			}
+
+			@media screen and (min-width: 640px) {
+				font-size: var(--fz-p);
 			}
 		}
 	}
