@@ -23,6 +23,7 @@ class App extends Component {
 	selectedCardId: number | null;
 	dropFromListIdx: number | null;
 	dropFromListId: number | null;
+	maxScrollHeight: number;
 	state: AppState;
 
 	constructor() {
@@ -33,6 +34,7 @@ class App extends Component {
 		this.selectedCardId = null;
 		this.dropFromListIdx = null;
 		this.dropFromListId = null;
+		this.maxScrollHeight = 500;
 
 		this.state = loadState();
 		console.log('[--- Load State ---]', this.state);
@@ -91,8 +93,12 @@ class App extends Component {
 					if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
 						if (!event.target?.matches('textarea')) return;
 
-						event.target.style.height = 'auto';
-						event.target.style.height = `${event.target.scrollHeight}px`;
+						const { scrollHeight } = event.target;
+
+						if (scrollHeight <= this.maxScrollHeight) {
+							event.target.style.height = 'auto';
+							event.target.style.height = `${scrollHeight}px`;
+						}
 					}
 				},
 			},
