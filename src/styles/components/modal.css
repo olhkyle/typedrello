@@ -9,6 +9,7 @@
 	background-color: rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(4px);
 	z-index: var(--overlay-index);
+	cursor: pointer;
 }
 
 .modal-container {
@@ -96,7 +97,6 @@
 
 			.modal-card-title {
 				display: flex;
-				flex-direction: column;
 				gap: 16px;
 				width: 100%;
 
@@ -107,6 +107,19 @@
 
 					&:focus {
 						background-color: var(--grey50);
+					}
+				}
+
+				.save-card-title-btn {
+					min-width: 60px;
+					color: var(--white);
+					background-color: var(--black);
+					font-size: var(--fz-p);
+					font-weight: var(--fw-semibold);
+					border-radius: var(--radius-s);
+
+					&:hover {
+						background-color: var(--grey900);
 					}
 				}
 			}
