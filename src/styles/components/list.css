@@ -11,8 +11,8 @@
 
 	.list-item {
 		min-width: 280px;
+		background-color: var(--grey50);
 		border-radius: var(--radius-s);
-		cursor: pointer;
 
 		@media screen and (min-width: 640px) {
 			max-width: 320px;
@@ -26,6 +26,7 @@
 			border: 1px solid var(--grey200);
 			background-color: var(--grey100);
 			border-radius: var(--radius-s);
+			cursor: pointer;
 
 			.list-item-header {
 				display: flex;
