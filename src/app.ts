@@ -254,6 +254,8 @@ class App extends Component {
 			),
 			modal: { ...this.state.modal, isCardDescCreatorOpen: !this.state.modal.isCardDescCreatorOpen },
 		});
+
+		console.log(this.state);
 	}
 
 	addDragImage() {
@@ -497,9 +499,12 @@ class App extends Component {
 
 		// 10. save Description
 		if ($element.matches('.save-btn')) {
-			if ($element.closest('.modal-card-content') instanceof HTMLElement) {
-				const { value: description } = $element.closest('.modal-card-content')?.querySelector('textarea') as HTMLTextAreaElement;
+			console.log($element);
 
+			if ($element.closest('.modal-body') instanceof HTMLElement) {
+				console.log($element.closest('.modal-body')?.querySelector('textarea'));
+				const { value: description } = $element.closest('.modal-body')?.querySelector('textarea') as HTMLTextAreaElement;
+				console.log(description);
 				this.saveModalDescription(description);
 			}
 		}
