@@ -22,7 +22,7 @@
 - `DND(Drag and Drop)` Lists
   - only works on Desktop (﹡ will-update `TouchEvent` on Tablet and Mobile)
 
-![Image](https://github.com/user-attachments/assets/280faf97-427b-46b1-a909-bc93eaf85a7a)
+![Image](https://github.com/user-attachments/assets/841ac430-515e-4e93-8d12-3967122aa3bd)
 
 <br/>
 
