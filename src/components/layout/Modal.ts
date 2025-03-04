@@ -29,6 +29,7 @@ class Modal extends Component<ModalProps> {
 									<i class='bx bx-window-alt'></i>
 									<div class="modal-card-title">
 										<textarea class="modal-card-title-textarea">${targetCard?.title}</textarea>
+										<button type="button" class="save-card-title-btn">Save</button>
 									</div>
 								</div>
 								<div class="modal-card-list-item-title">

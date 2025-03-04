@@ -485,19 +485,44 @@ class App extends Component {
 			this.toggleModal();
 		}
 
-		// 8. make Modal Description active
+		// 8. update TextArea value after clicks save-button
+		if ($element.matches('.save-card-title-btn')) {
+			const currentCardTitle = findCardTitle({
+				lists: this.state.lists,
+				listId: this.selectedListId!,
+				cardId: this.selectedCardId!,
+			});
+
+			const $modalCardTitleTextArea = $element.closest('.modal-header-bottom')?.querySelector('.modal-card-title-textarea');
+
+			if ($modalCardTitleTextArea instanceof HTMLTextAreaElement) {
+				const textAreaValue = $modalCardTitleTextArea?.value;
+
+				if (textAreaValue === '' || textAreaValue === currentCardTitle) {
+					$modalCardTitleTextArea.value = currentCardTitle!;
+					return;
+				}
+
+				console.log(currentCardTitle, textAreaValue);
+
+				this.updateCardTitle(textAreaValue);
+				this.toggleModal();
+			}
+		}
+
+		// 9. make Modal Description active
 		if ($element.matches('.modal-card-content-textarea')) {
 			if (this.state.modal.isCardDescCreatorOpen) return;
 
 			this.toggleModalDescription(true);
 		}
 
-		// 9. close Description textarea
+		// 10. close Description textarea
 		if ($element.matches('.description-close-btn')) {
 			this.toggleModalDescription(false);
 		}
 
-		// 10. save Description
+		// 11. save Description
 		if ($element.matches('.save-btn')) {
 			console.log($element);
 
@@ -509,7 +534,7 @@ class App extends Component {
 			}
 		}
 
-		// 11. if Description Textarea is active and click Modal Container, do not close Modal and induce to save description on textarea
+		// 12. if Description Textarea is active and click Modal Container, do not close Modal and induce to save description on textarea
 		if (this.state.modal.isCardDescCreatorOpen && $element.closest('.modal-container')) {
 			if ($element.matches('.modal-card-content-textarea') || $element.closest('.description-control')) return;
 
@@ -555,7 +580,7 @@ class App extends Component {
 				const { value } = $element;
 
 				if (value === '' || value === currentCardTitle) {
-					$element.value = currentCardTitle;
+					$element.value = currentCardTitle!;
 				}
 
 				$element.blur();
@@ -576,7 +601,7 @@ class App extends Component {
 				const currentValue = findListTitle({ lists: this.state.lists, listId });
 
 				if (value === '') {
-					$element.value = currentValue;
+					$element.value = currentValue!;
 
 					$element.blur();
 					return;
@@ -611,7 +636,7 @@ class App extends Component {
 				});
 
 				if (value === '' || value === currentCardTitle) {
-					$element.value = currentCardTitle;
+					$element.value = currentCardTitle!;
 					return;
 				}
 
