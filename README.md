@@ -6,27 +6,35 @@
 
 <br/>
 
-## Goals
+## Purpose
 
 - Benchmark Trello Web Application
 - Gradual adoption of TypeScript in a Vanilla JavaScript App
-  > <a href="https://github.com/olhkyle/trello" target="_blank">previous Vanilla JavaScript version</a>
+  > <a href="https://github.com/olhkyle/trello" target="_blank">﹡ Previous version(with Vanilla JavaScript)</a>
 
 <br/>
 
-## Features
+## Key Features
 
-- Make a `List` in order
-- Make multiple `Card`s in List
-  - Each Card's content can be modified in `Modal
-- `DND(Drag and Drop)` Lists
-  - only works on Desktop (﹡ will-update `TouchEvent` on Tablet and Mobile)
+1. `List`
+
+- Create new `List` in order
+- Edit List Card Title
+
+2. `Card`
+
+- Create new `Card` in List
+  - Each Card's content can be modified in `Modal`
+
+3. `DND(Drag and Drop)` Lists or Cards
+
+- only works on Desktop (﹡ will-update `TouchEvent` on Tablet and Mobile)
 
 ![Image](https://github.com/user-attachments/assets/841ac430-515e-4e93-8d12-3967122aa3bd)
 
 <br/>
 
-## Technical Consideration
+## Technical Challenges
 
 - Migrating an existing **Vanilla JavaScript** App to **TypeScript**
 - Implemented SPA using Vanilla TypeScript without any libraries or frameworks
@@ -34,6 +42,12 @@
 - Designed a CBD library based on the implemented Diffing(Reconciliation) algorithm, using `Class` (ES6+) syntax
 - Implemented various DOM event interactions using **Event Delegation**
 - Define Components as declarative views with state
+
+<br/>
+
+## Key Learning
+
+WIP
 
 <br/>
 
