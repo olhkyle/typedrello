@@ -384,7 +384,10 @@ class App extends Component {
 
 			const lists = moveList(this.state.lists, prevDropFromIdx!, currentDropToIdx);
 
-			this.setState({ lists });
+			// because of triggering dragend after drop, make setState call after push dragend event handler
+			setTimeout(() => {
+				this.setState({ lists });
+			}, 10);
 			console.log('drop');
 
 			return;
@@ -392,9 +395,7 @@ class App extends Component {
 
 		if (this.$dragTarget?.matches('.card')) {
 			const [cardId, prevDropFromId, currentDropToId] = [getCardId(this.$dragTarget), this.dropFromListId, getListId(this.$dragTarget)];
-			console.log(cardId);
-			console.log(prevDropFromId);
-			console.log(currentDropToId);
+
 			if (this.$dragTarget?.parentNode instanceof HTMLElement) {
 				// find CardElement which is same with $dragTarget's id
 				const cardIndex = [...this.$dragTarget.parentNode.querySelectorAll('.card')].findIndex($card => {
@@ -403,9 +404,12 @@ class App extends Component {
 					}
 				});
 
-				this.setState({
-					lists: moveCard({ lists: this.state.lists, cardId, prevDropFromId: prevDropFromId!, currentDropToId, cardIndex }),
-				});
+				// because of triggering dragend after drop, make setState call after push dragend event handler
+				setTimeout(() => {
+					this.setState({
+						lists: moveCard({ lists: this.state.lists, cardId, prevDropFromId: prevDropFromId!, currentDropToId, cardIndex }),
+					});
+				}, 10);
 				console.log('drop');
 			}
 		}
