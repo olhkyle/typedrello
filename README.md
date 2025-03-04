@@ -16,19 +16,21 @@
 
 ## Key Features
 
-1. `List`
+- `List`
 
-- Create new `List` in order
-- Edit List Card Title
+  - Create new `List` in order
+  - Edit List Card Title
 
-2. `Card`
+- `Card`
 
-- Create new `Card` in List
-  - Each Card's content can be modified in `Modal`
+  - Create new `Card` in List
+    - Each Card's content can be modified in `Modal`
 
-3. `DND(Drag and Drop)` Lists or Cards
+- `DND(Drag and Drop)` Lists or Cards
 
-- only works on Desktop (﹡ will-update `TouchEvent` on Tablet and Mobile)
+  - only works on Desktop (﹡ will-update `TouchEvent` on Tablet and Mobile)
+
+> 💿 Preview GIF
 
 ![Image](https://github.com/user-attachments/assets/841ac430-515e-4e93-8d12-3967122aa3bd)
 
