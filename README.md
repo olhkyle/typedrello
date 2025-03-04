@@ -34,3 +34,9 @@
 - Designed a CBD library based on the implemented Diffing(Reconciliation) algorithm, using `Class` (ES6+) syntax
 - Implemented various DOM event interactions using **Event Delegation**
 - Define Components as declarative views with state
+
+<br/>
+
+## 🎛️ Tech Stacks
+
+`HTML` `CSS` `TypeScript` `Prettier` `Eslint`
