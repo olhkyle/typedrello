@@ -131,9 +131,9 @@
 			word-break: break-all;
 
 			span {
-				padding: calc(var(--padding-container-mobile) * 0.25);
+				padding: calc(var(--padding-container-mobile) * 0.25) calc(var(--padding-container-mobile) * 0.5);
 				color: var(--white);
-				background-color: var(--blue400);
+				background-color: var(--grey500);
 				font-size: var(--fz-p);
 				font-weight: var(--fw-medium);
 				border-radius: var(--radius-s);

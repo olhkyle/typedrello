@@ -33,8 +33,7 @@ class Modal extends Component<ModalProps> {
 									</div>
 								</div>
 								<div class="modal-card-list-item-title">
-									📎
-									<span href="#">#${lists.find(list => list.id === listId)?.title}</span>
+									<span href="#"># ${lists.find(list => list.id === listId)?.title}</span>
 								</div>
 							</div>
 							<div class="divider"></div>
